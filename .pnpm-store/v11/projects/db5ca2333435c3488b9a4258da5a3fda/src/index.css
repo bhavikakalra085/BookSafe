@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope", "Segoe UI", sans-serif;
+  --color-ink: #070b0e;
+  --color-panel: #0d1318;
+  --color-line: #202a31;
+  --color-brand: #ff425b;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    background: #070b0e;
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background:
+      radial-gradient(circle at 50% -10%, rgba(36, 51, 65, 0.22), transparent 42%),
+      #070b0e;
+    color: #f4f7f8;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button {
+    font: inherit;
+  }
+
+  ::selection {
+    background: rgba(255, 66, 91, 0.35);
+  }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-10px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(14px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+@utility animate-toast-in {
+  animation: toast-in .25s ease-out both;
+}
+
+@utility animate-modal-in {
+  animation: modal-in .22s ease-out both;
+}
+
+@utility scrollbar-subtle {
+  scrollbar-color: #26323a transparent;
+  scrollbar-width: thin;
+}
