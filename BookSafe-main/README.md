@@ -41,6 +41,18 @@ There is a small test script at `server/concurrency-test.js` which fires concurr
 node server/concurrency-test.js
 ```
 
+## Live Demo
+
+- Frontend deployed on Vercel: https://client-nine-opal-95.vercel.app
+
+## Lessons Learned
+
+There is a small test script at `server/concurrency-test.js` which fires concurrent booking requests to verify the lock-based protection:
+
+```bash
+node server/concurrency-test.js
+```
+
 ## Lessons Learned
 
 This project helped me understand that backend reliability is often more important than UI complexity. Working with transactions, row-level locking, and rollback mechanisms gave me practical experience in handling concurrency problems that occur in real reservation systems.
