@@ -83,10 +83,6 @@ app.post("/seats/:id/book", async (req, res) => {
 
     console.log(`Locked seat ${seatId}`);
 
-    await new Promise(resolve =>
-      setTimeout(resolve, 5000)
-    );
-
     if (seat.is_booked) {
 
       await connection.rollback();
