@@ -18,14 +18,24 @@ if (hasDbConfig) {
   // Fallback in-memory pool for local development when no .env DB is configured.
   // Provides minimal API used by the server: query() and getConnection().
   const seats = [];
+  const rows = 'ABCDEFGHIJ'.split('')
+  const seatsPerRow = 16
 
-  // initialize 30 seats if empty
-  for (let i = 1; i <= 30; i++) seats.push({ id: i, is_booked: false });
+  for (const row of rows) {
+    for (let seatNumber = 1; seatNumber <= seatsPerRow; seatNumber += 1) {
+      seats.push({
+        id: seats.length + 1,
+        seat_number: `${row}${seatNumber}`,
+        event_name: 'Concert Night',
+        is_booked: false,
+      })
+    }
+  }
 
   const pool = {
-      query: async (sql, params) => {
-        const norm = String(sql).replace(/\s+/g, " ").trim().toUpperCase();
-        console.log('[FALLBACK DB] query:', norm, 'params:', params);
+    query: async (sql, params) => {
+      const norm = String(sql).replace(/\s+/g, " ").trim().toUpperCase();
+      console.log('[FALLBACK DB] query:', norm, 'params:', params);
 
         // SELECT * FROM seats WHERE id = ? (with optional FOR UPDATE)
         if (norm.includes("FROM SEATS") && norm.includes("WHERE ID")) {

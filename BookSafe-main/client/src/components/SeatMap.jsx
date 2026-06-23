@@ -23,6 +23,7 @@ function LegendItem({ color, label }) {
 
 export default function SeatMap({ seats, selectedSeat, onSelect }) {
   const seatLookup = new Map(seats.map((seat) => [normalizeSeatNumber(seat.seat_number), seat]))
+  console.log('SeatMap loaded', { seatsLength: seats.length, seatLookupSize: seatLookup.size, sampleKeys: [...seatLookup.keys()].slice(0, 10) })
 
   return (
     <section className="overflow-hidden rounded-2xl border border-line bg-[#0a1014] shadow-2xl shadow-black/25" aria-label="Concert seating plan">

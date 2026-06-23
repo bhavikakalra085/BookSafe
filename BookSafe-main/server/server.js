@@ -11,13 +11,31 @@ app.get("/", (req, res) => {
   res.send("Seat Booking Backend Running");
 });
 
+const SEAT_ROWS = 'ABCDEFGHIJ'.split('')
+const SEATS_PER_ROW = 16
+
+const computeSeatNumber = (id) => {
+  const index = Number(id) - 1
+  if (Number.isNaN(index) || index < 0) return `#${id}`
+  const row = SEAT_ROWS[Math.floor(index / SEATS_PER_ROW)]
+  const number = (index % SEATS_PER_ROW) + 1
+  return row ? `${row}${number}` : `#${id}`
+}
+
 app.get("/seats", async (req, res) => {
   try {
     const [rows] = await pool.query(
       "SELECT * FROM seats"
     );
 
-    res.json(rows);
+    const normalized = rows.map((row, idx) => ({
+      id: row.id ?? idx + 1,
+      seat_number: row.seat_number || computeSeatNumber(row.id ?? idx + 1),
+      event_name: row.event_name || 'Concert Night',
+      is_booked: Boolean(row.is_booked),
+    }))
+
+    res.json(normalized);
   } catch (error) {
     console.error(error);
 
