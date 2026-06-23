@@ -47,4 +47,4 @@ This project helped me understand that backend reliability is often more importa
 
 ---
 
-If you'd like, I can also add CI, tests, or a Docker Compose setup to make the development environment reproducible — ask me to proceed and I'll add that next.
+
