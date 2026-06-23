@@ -1,29 +1,31 @@
 # BookSafe
 
-A full-stack seat reservation system built to explore database concurrency and transaction management.
+A full-stack seat reservation system built to explore database concurrency, transaction safety, and serverless deployment.
+
+## Live Demo
+
+- Frontend + API deployed on Vercel: https://booksafe-fullstack.vercel.app
 
 ## Why I Built This
 
-Booking systems seem simple until multiple users try to reserve the same seat at the same time. I built BookSafe to understand how real-world applications handle race conditions and maintain data consistency under concurrent requests.
+Booking systems seem simple until multiple users try to reserve the same seat at the same time. BookSafe demonstrates how to handle race conditions, enforce consistency, and recover safely when bookings fail.
 
 ## Features
 
-- Interactive seat selection
+- Interactive seat selection UI
 - Book and cancel reservations
-- Transaction-based booking workflow
-- Protection against double booking using row-level locks
+- Transaction-based booking workflow with row-level locking
+- Serverless backend deployed on Vercel
+- Local backend fallback to in-memory data when MySQL is not configured
 
 ## Tech Stack
 
 - React + Vite
 - Node.js + Express
-- MySQL
+- MySQL / in-memory fallback
+- Vercel serverless functions
 
-## Concurrency Control
-
-Bookings are processed inside a MySQL transaction using `SELECT ... FOR UPDATE`. The requested seat is locked during the transaction, ensuring that only one reservation can succeed even when multiple requests arrive simultaneously.
-
-## Run Locally
+## Local Setup
 
 ### Backend
 
@@ -33,29 +35,45 @@ npm install
 npm start
 ```
 
-### Concurrency Test
-
-There is a small test script at `server/concurrency-test.js` which fires concurrent booking requests to verify the lock-based protection:
+### Frontend
 
 ```bash
-node server/concurrency-test.js
+cd client
+npm install
+npm run dev
 ```
 
-## Live Demo
+Then open the local Vite app in the browser.
 
-- Frontend deployed on Vercel: https://client-nine-opal-95.vercel.app
+### Full Build
 
-## Lessons Learned
-
-There is a small test script at `server/concurrency-test.js` which fires concurrent booking requests to verify the lock-based protection:
+From the repository root:
 
 ```bash
-node server/concurrency-test.js
+npm run build
 ```
 
-## Lessons Learned
+This runs the client build and produces the production-ready assets.
 
-This project helped me understand that backend reliability is often more important than UI complexity. Working with transactions, row-level locking, and rollback mechanisms gave me practical experience in handling concurrency problems that occur in real reservation systems.
+## API Endpoints
+
+- `GET /api/seats` — fetch all seats
+- `POST /api/seats/:id/book` — book a seat
+- `POST /api/seats/:id/cancel` — cancel a booking
+
+## Concurrency Test
+
+Verify lock-based booking protection with:
+
+```bash
+cd server
+node concurrency-test.js
+```
+
+## Notes
+
+- The backend uses `server/db.js` to connect to MySQL when environment variables are set.
+- If no MySQL config is provided, the app falls back to an in-memory seat store for local development.
 
 ---
 
